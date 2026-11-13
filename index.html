@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%97%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Cinzel:wght@600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#fbf6f1; --ink:#2b2120; --muted:#6a5d5a; --card:#fff; --line:#eadfd8;
@@ -28,14 +28,18 @@
   :focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
   .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
 
-  header.hero{padding:22px 0 8px;text-align:center;background:var(--bg)}
-  .hero-top{display:flex;align-items:center;justify-content:center;gap:clamp(12px,4vw,36px);margin-bottom:6px}
-  .logo{width:min(56%,380px);height:auto;mix-blend-mode:multiply}
-  .retrato{width:clamp(96px,22vw,150px);height:auto;aspect-ratio:1;object-fit:cover;object-position:50% 30%;border-radius:50%;border:3px solid #c9967f;box-shadow:0 6px 18px rgba(125,69,56,.25)}
-  header.hero h1{font-size:clamp(1.6rem,4.6vw,2.4rem);margin:8px 0 6px}
+  .topo{--p:0;--logo0:min(48vw,340px,40vh);--logo1:min(24vw,100px,16vh);--ret0:clamp(64px,18vw,130px);--ret1:clamp(36px,9vw,52px);--tit0:2.2rem;--tit1:1.05rem;
+    position:fixed;top:0;left:0;right:0;z-index:20;background:var(--bg);padding:calc(14px - 8px*var(--p)) 0 calc(6px - 2px*var(--p));text-align:center;
+    box-shadow:0 4px 14px rgba(125,69,56,calc(.16*var(--p)))}
+  .topo-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+  .logo{grid-column:2;width:calc(var(--logo0) + (var(--logo1) - var(--logo0))*var(--p));height:auto;mix-blend-mode:multiply;display:block}
+  .retrato{grid-column:3;justify-self:end;width:calc(var(--ret0) + (var(--ret1) - var(--ret0))*var(--p));aspect-ratio:1;height:auto;object-fit:cover;object-position:50% 30%;border-radius:50%;border:3px solid #c9967f;box-shadow:0 6px 18px rgba(125,69,56,.25)}
+  .topo h1{font-family:'Cinzel',Georgia,serif;font-weight:600;letter-spacing:.06em;font-size:calc(var(--tit0) + (var(--tit1) - var(--tit0))*var(--p));margin:calc(6px - 3px*var(--p)) 0 0;
+    background:linear-gradient(90deg,#8a4b3c,#b07a66,#8a4b3c);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+  header.hero{padding:6px 0 8px;text-align:center;background:var(--bg)}
   header.hero p.lead{color:var(--muted);max-width:560px;margin:0 auto 14px}
   .steps li,details.regras{text-align:left}
-  .fecha{display:inline-block;background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:500;margin:0 0 16px}
+  .fecha{display:inline-block;background:var(--rose-l);color:var(--rose-d);border:1px solid #e3c6bb;border-radius:12px;padding:8px 14px;font-weight:500;margin:0 0 16px}
   .fecha strong{font-weight:700}
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:0;padding:0;list-style:none;counter-reset:s}
   .steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 10px 46px;position:relative;font-size:.92rem}
@@ -48,7 +52,7 @@
   .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:22px 0 16px}
   .filters span{color:var(--muted);font-size:.9rem}
   .chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;font-weight:500}
-  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip[aria-pressed="true"]{background:var(--rose-d);color:#fff;border-color:var(--rose-d)}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px;padding-bottom:40px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
@@ -58,7 +62,7 @@
   .ph .vazio{color:var(--muted);font-size:.85rem;text-align:center;padding:12px}
   .ph .vazio svg{width:54px;height:54px;display:block;margin:0 auto 6px;opacity:.5}
   .lot{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.92);border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:700}
-  .timer{position:absolute;right:10px;top:10px;background:#2b2120;color:#fff;border-radius:999px;padding:2px 10px;font-size:.82rem;font-weight:700;font-variant-numeric:tabular-nums}
+  .timer{position:absolute;right:10px;top:10px;background:var(--rose-d);color:#fff;border-radius:999px;padding:2px 10px;font-size:.82rem;font-weight:700;font-variant-numeric:tabular-nums}
   .timer.urgent{background:var(--bad);animation:pulse 1s infinite}
   @keyframes pulse{50%{opacity:.7}}
   @media (prefers-reduced-motion:reduce){.timer.urgent{animation:none}}
@@ -89,7 +93,7 @@
   .status p{margin:0 0 10px}
 
   input[type=text],input[type=tel],input[type=number]{font:inherit;border:1px solid #c9bdb6;border-radius:10px;padding:10px;width:100%;background:#fff;color:var(--ink)}
-  dialog{border:0;border-radius:20px;padding:0;max-width:440px;width:calc(100% - 28px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  dialog{border:0;border-radius:20px;padding:0;max-width:440px;width:calc(100% - 28px);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
   dialog::backdrop{background:rgba(43,33,32,.55)}
   .dlg{padding:20px}
   .dlg h2{font-size:1.4rem;margin-bottom:2px}
@@ -114,19 +118,25 @@
 </head>
 <body>
 
-<header class="hero">
+<div class="topo" id="topo">
   <div class="wrap">
-    <div class="hero-top">
+    <div class="topo-grid">
       <img class="logo" src="logo.jpg" width="603" height="445" alt="Nobre Maria Antonieta">
       <img class="retrato" src="retrato.jpg" width="144" height="144" alt="Retrato em pintura clássica de uma dama com chapéu de palha e plumas">
     </div>
     <h1 id="titulo">Bazar em leilão</h1>
+  </div>
+</div>
+<div id="topoEspaco" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
     <p class="lead" id="sub"></p>
     <div class="fecha" id="fecha" hidden></div>
     <ol class="steps">
       <li>Escolha uma peça e confira tamanho, marca e estado.</li>
       <li>Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim.</li>
-      <li>Venceu? Enviamos o link para pagamento no cartão e combinamos o envio.</li>
+      <li>Venceu? Enviamos o link para pagamento no cartão e combinamos a retirada.</li>
     </ol>
     <details class="regras">
       <summary>Regras do leilão</summary>
@@ -144,7 +154,7 @@
 <footer>
   <div class="wrap">
     <span id="duvidas"></span>
-    <div>Os lances ficam registrados com data e hora. Dar um lance é um compromisso de compra.</div>
+    <div id="copy"></div>
   </div>
 </footer>
 
@@ -187,8 +197,7 @@
     API_URL: 'https://script.google.com/macros/s/AKfycbxgVgIoJpBPAxu80wGNSCM9RpStKLo5iVmHj2XmUBA4AEacTOEnvq3LU0SJ3deoWx-7vg/exec',   // termina em /exec
     NOME: 'Nobre Maria Antonieta',
     SUBTITULO: 'Peças femininas selecionadas com carinho. Quem der o maior lance leva.',
-    ENVIO: 'Correios, motoboy ou retirada',
-    WHATSAPP_DUVIDAS: '',                         // ex.: '5511999999999' (deixe vazio para esconder)
+        WHATSAPP_DUVIDAS: '',                         // ex.: '5511999999999' (deixe vazio para esconder)
     INTERVALO_MS: 10000
   };
   /* ========================================= */
@@ -228,13 +237,22 @@
   }
 
   /* ---------- textos ---------- */
-  function dataFmt(ms){
-    try { return new Intl.DateTimeFormat('pt-BR', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }).format(new Date(ms)); }
-    catch(e) { return new Date(ms).toLocaleString('pt-BR'); }
+  function dataFrase(ms){
+    var o = {}, d = new Date(ms);
+    try {
+      new Intl.DateTimeFormat('pt-BR', { timeZone:'America/Sao_Paulo', weekday:'long', day:'numeric', month:'long', hour:'numeric', minute:'2-digit', hourCycle:'h23' })
+        .formatToParts(d).forEach(function(x){ o[x.type] = x.value; });
+    } catch(e) { return d.toLocaleString('pt-BR'); }
+    var dia = String(o.weekday || '').toLowerCase().split('-')[0];
+    var fds = (dia === 'sábado' || dia === 'domingo');
+    var h = parseInt(o.hour, 10), m = parseInt(o.minute, 10);
+    var hora = h + 'h' + (m ? (m < 10 ? '0' : '') + m : '');
+    return (fds ? 'no ' : 'na ') + String(o.weekday).toLowerCase() + ', dia ' + o.day + ' de ' + o.month + ', às ' + hora;
   }
   function montarTextos(){
     document.title = CONFIG.NOME + ' · Bazar em leilão';
     $('#sub').textContent = CONFIG.SUBTITULO;
+    $('#copy').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.NOME + '. Todos os direitos reservados.';
     if (CONFIG.WHATSAPP_DUVIDAS) {
       $('#duvidas').innerHTML = 'Dúvidas? <a href="https://wa.me/' + esc(CONFIG.WHATSAPP_DUVIDAS.replace(/\D/g,'')) + '" rel="noopener">Fale com a gente no WhatsApp</a>.';
     }
@@ -242,15 +260,12 @@
   function montarRegras(){
     if (!encerramento) return;
     $('#fecha').hidden = false;
-    $('#fecha').innerHTML = 'Todas as peças encerram em <strong>' + esc(dataFmt(encerramento)) + '</strong>';
+    $('#fecha').innerHTML = 'Todas as peças encerram <strong>' + esc(dataFrase(encerramento)) + '</strong> (horário de Brasília)';
     $('#regras').innerHTML = [
-      'O leilão encerra em ' + esc(dataFmt(encerramento)) + '. Todas as peças fecham juntas.',
-      'O lance inicial e o aumento mínimo aparecem em cada peça.',
-      'Um lance nos últimos ' + extMin + ' minutos estende o prazo daquela peça em mais ' + extMin + ' minutos.',
-      'Dar um lance é um compromisso de compra. Quem desistir ou não pagar fica fora dos próximos bazares.',
-      'Pagamento no cartão, por link de pagamento enviado pelo WhatsApp, em até 24 horas após o encerramento.',
-      'Envio: ' + esc(CONFIG.ENVIO) + ', com frete único por cliente.',
-      'As peças são usadas; defeitos aparecem nas fotos e em "Detalhes". Não há troca.'
+      'Lance nos últimos ' + extMin + ' minutos prorroga a peça em mais ' + extMin + ' minutos.',
+      'Dar um lance é um compromisso de compra.',
+      'Pagamento no cartão, por link enviado pelo WhatsApp, em até 24 horas.',
+      'Envio: retirada a combinar.'
     ].map(function(t){ return '<li>' + t + '</li>'; }).join('');
   }
 
@@ -419,6 +434,24 @@
       err.textContent = 'Sem conexão com o sistema. Confira a internet e tente de novo.';
     }).finally(function(){ btn.disabled = false; btn.textContent = 'Confirmar lance'; });
   }
+
+  /* ---------- cabeçalho fixo que encolhe ao rolar ---------- */
+  var topo = $('#topo'), espaco = $('#topoEspaco'), H0 = 0, Hc = 0, ticking = false;
+  function medir(){
+    topo.style.setProperty('--p', 0); H0 = topo.offsetHeight;
+    topo.style.setProperty('--p', 1); Hc = topo.offsetHeight;
+    espaco.style.height = H0 + 'px'; aplicar();
+  }
+  function aplicar(){
+    ticking = false;
+    var d = Math.max(1, H0 - Hc), p = Math.min(1, Math.max(0, (window.pageYOffset || 0) / d));
+    topo.style.setProperty('--p', p.toFixed(3));
+  }
+  window.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(aplicar); } }, { passive:true });
+  window.addEventListener('resize', medir);
+  window.addEventListener('load', medir);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
+  medir();
 
   montarTextos();
   carregar();
