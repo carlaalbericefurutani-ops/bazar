@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nobre Maria Antonieta · Bazar em leilão</title>
+<meta name="description" content="Bazar Nobre Maria Antonieta: peças femininas selecionadas em formato de leilão online. Dê seu lance e leve a peça.">
+<meta property="og:title" content="Nobre Maria Antonieta · Bazar em leilão">
+<meta property="og:description" content="Peças femininas selecionadas. Dê seu lance e leve a peça.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://carlaalberice-ops.github.io/bazar/logo.jpg">
+<meta name="theme-color" content="#9c5a4a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%97%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbf6f1; --ink:#2b2120; --muted:#6a5d5a; --card:#fff; --line:#eadfd8;
+    --rose:#9c5a4a; --rose-d:#7d4538; --rose-l:#f6e6e1;
+    --ok:#2a7550; --ok-l:#e2f3ea; --warn:#9a5600; --warn-l:#fff0d9; --bad:#b3261e;
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.45}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;margin:0;line-height:1.15}
+  button{font:inherit;cursor:pointer}
+  :focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+  header.hero{padding:22px 0 8px;text-align:center;background:var(--bg)}
+  .hero-top{display:flex;align-items:center;justify-content:center;gap:clamp(12px,4vw,36px);margin-bottom:6px}
+  .logo{width:min(56%,380px);height:auto;mix-blend-mode:multiply}
+  .retrato{width:clamp(96px,22vw,150px);height:auto;aspect-ratio:1;object-fit:cover;object-position:50% 30%;border-radius:50%;border:3px solid #c9967f;box-shadow:0 6px 18px rgba(125,69,56,.25)}
+  header.hero h1{font-size:clamp(1.6rem,4.6vw,2.4rem);margin:8px 0 6px}
+  header.hero p.lead{color:var(--muted);max-width:560px;margin:0 auto 14px}
+  .steps li,details.regras{text-align:left}
+  .fecha{display:inline-block;background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:500;margin:0 0 16px}
+  .fecha strong{font-weight:700}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:0;padding:0;list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 10px 46px;position:relative;font-size:.92rem}
+  .steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:26px;height:26px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  details.regras{margin:14px 0 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+  details.regras summary{font-weight:700;cursor:pointer}
+  details.regras ul{margin:8px 0 2px;padding-left:20px;color:var(--ink);font-size:.93rem}
+  details.regras li{margin:3px 0}
+
+  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:22px 0 16px}
+  .filters span{color:var(--muted);font-size:.9rem}
+  .chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;font-weight:500}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px;padding-bottom:40px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .card.closed{opacity:.82}
+  .ph{aspect-ratio:3/4;background:#f1e8e1;position:relative;display:grid;place-items:center;overflow:hidden}
+  .ph img.main{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+  .ph .vazio{color:var(--muted);font-size:.85rem;text-align:center;padding:12px}
+  .ph .vazio svg{width:54px;height:54px;display:block;margin:0 auto 6px;opacity:.5}
+  .lot{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.92);border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:700}
+  .timer{position:absolute;right:10px;top:10px;background:#2b2120;color:#fff;border-radius:999px;padding:2px 10px;font-size:.82rem;font-weight:700;font-variant-numeric:tabular-nums}
+  .timer.urgent{background:var(--bad);animation:pulse 1s infinite}
+  @keyframes pulse{50%{opacity:.7}}
+  @media (prefers-reduced-motion:reduce){.timer.urgent{animation:none}}
+  .thumbs{display:flex;gap:6px;padding:8px 10px 0}
+  .thumbs button{border:2px solid transparent;border-radius:8px;padding:0;background:none;width:44px;height:44px;overflow:hidden}
+  .thumbs button[aria-current="true"]{border-color:var(--rose)}
+  .thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+  .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .body h3{font-size:1.1rem}
+  .meta{margin:0;color:var(--muted);font-size:.84rem}
+  .price{display:flex;justify-content:space-between;align-items:flex-end;margin-top:4px}
+  .price small{display:block;color:var(--muted);font-size:.76rem}
+  .price strong{font-size:1.5rem;font-family:'Fraunces',serif}
+  .who{font-size:.85rem;min-height:1.3em}
+  .badge{display:inline-block;border-radius:999px;padding:1px 10px;font-size:.78rem;font-weight:700}
+  .badge.win{background:var(--ok-l);color:var(--ok)}
+  .badge.lost{background:var(--warn-l);color:var(--warn)}
+  .badge.ext{background:#e6efff;color:#1c43a8}
+  .btn{background:var(--rose);color:#fff;border:0;border-radius:12px;padding:11px 14px;font-weight:700;margin-top:auto}
+  .btn:hover{background:var(--rose-d)}
+  .btn[disabled]{background:#cfc4be;color:#4b413e;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f3ece6}
+  .btn.small{padding:6px 10px;font-size:.82rem;border-radius:8px;margin-top:0}
+
+  .status{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:20px 0;text-align:center}
+  .status.erro{background:#fdecea;border-color:#f3c4bf}
+  .status p{margin:0 0 10px}
+
+  input[type=text],input[type=tel],input[type=number]{font:inherit;border:1px solid #c9bdb6;border-radius:10px;padding:10px;width:100%;background:#fff;color:var(--ink)}
+  dialog{border:0;border-radius:20px;padding:0;max-width:440px;width:calc(100% - 28px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  dialog::backdrop{background:rgba(43,33,32,.55)}
+  .dlg{padding:20px}
+  .dlg h2{font-size:1.4rem;margin-bottom:2px}
+  .dlg .sub{color:var(--muted);margin:0 0 14px;font-size:.9rem}
+  .dlg label{display:block;font-weight:700;font-size:.85rem;margin:10px 0 4px}
+  .quick{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .err{color:var(--bad);font-size:.88rem;min-height:1.3em;margin:8px 0 0;font-weight:500}
+  .dlg-actions{display:flex;gap:8px;margin-top:14px}
+  .dlg-actions .btn{flex:1;margin-top:0}
+  .aviso{font-size:.8rem;color:var(--muted);margin:10px 0 0}
+  #zoomDlg{max-width:min(92vw,720px);background:transparent;box-shadow:none}
+  #zoomDlg img{width:100%;max-height:84vh;object-fit:contain;border-radius:12px;display:block;background:#fff}
+  #zoomDlg .fechar{display:block;margin:10px auto 0;background:#fff;border:0;border-radius:999px;padding:8px 20px;font-weight:700}
+
+  #toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:50;width:min(92vw,420px)}
+  .toast{background:#2b2120;color:#fff;border-radius:12px;padding:10px 14px;font-size:.92rem;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .toast.good{background:var(--ok)}
+  .toast.bad{background:#7a2a1f}
+  footer{border-top:1px solid var(--line);padding:18px 0 36px;color:var(--muted);font-size:.88rem}
+  footer a{color:var(--rose-d);font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <img class="logo" src="logo.jpg" width="603" height="445" alt="Nobre Maria Antonieta">
+      <img class="retrato" src="retrato.jpg" width="144" height="144" alt="Retrato em pintura clássica de uma dama com chapéu de palha e plumas">
+    </div>
+    <h1 id="titulo">Bazar em leilão</h1>
+    <p class="lead" id="sub"></p>
+    <div class="fecha" id="fecha" hidden></div>
+    <ol class="steps">
+      <li>Escolha uma peça e confira tamanho, marca e estado.</li>
+      <li>Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim.</li>
+      <li>Venceu? Enviamos o link para pagamento no cartão e combinamos o envio.</li>
+    </ol>
+    <details class="regras">
+      <summary>Regras do leilão</summary>
+      <ul id="regras"></ul>
+    </details>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="filters" id="filtros" role="group" aria-label="Filtrar por tamanho" hidden></div>
+  <div id="status" class="status" role="status">Carregando as peças…</div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="duvidas"></span>
+    <div>Os lances ficam registrados com data e hora. Dar um lance é um compromisso de compra.</div>
+  </div>
+</footer>
+
+<!-- Lance -->
+<dialog id="bidDlg" aria-labelledby="bidTitle">
+  <div class="dlg">
+    <h2 id="bidTitle"></h2>
+    <p class="sub" id="bidSub"></p>
+    <label for="bName">Seu nome</label>
+    <input type="text" id="bName" autocomplete="name" maxlength="40" placeholder="Nome e sobrenome">
+    <label for="bPhone">Seu WhatsApp</label>
+    <input type="tel" id="bPhone" autocomplete="tel" inputmode="tel" placeholder="(11) 90000-0000" aria-describedby="bPhoneAjuda">
+    <p class="aviso" id="bPhoneAjuda" style="margin:4px 0 0">No Brasil, com DDD. Número do exterior? Comece com + e o código do país (ex.: +351 912 345 678).</p>
+    <label for="bAmount">Seu lance (R$)</label>
+    <input type="number" id="bAmount" inputmode="numeric" min="1" step="1">
+    <div class="quick" id="quick"></div>
+    <p class="err" id="bErr" role="alert"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn ghost" id="bCancel">Cancelar</button>
+      <button type="button" class="btn" id="bSend">Confirmar lance</button>
+    </div>
+    <p class="aviso">Usamos seu WhatsApp só para falar com você se você arrematar a peça.</p>
+  </div>
+</dialog>
+
+<!-- Foto ampliada -->
+<dialog id="zoomDlg" aria-label="Foto ampliada">
+  <img id="zoomImg" alt="">
+  <button type="button" class="fechar" id="zoomClose">Fechar</button>
+</dialog>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ======= CONFIGURAÇÃO — edite aqui ======= */
+  var CONFIG = {
+    API_URL: 'https://script.google.com/macros/s/AKfycbxgVgIoJpBPAxu80wGNSCM9RpStKLo5iVmHj2XmUBA4AEacTOEnvq3LU0SJ3deoWx-7vg/exec',   // termina em /exec
+    NOME: 'Nobre Maria Antonieta',
+    SUBTITULO: 'Peças femininas selecionadas com carinho. Quem der o maior lance leva.',
+    ENVIO: 'Correios, motoboy ou retirada',
+    WHATSAPP_DUVIDAS: '',                         // ex.: '5511999999999' (deixe vazio para esconder)
+    INTERVALO_MS: 10000
+  };
+  /* ========================================= */
+
+  var $ = function(s){return document.querySelector(s)};
+  var brl = function(v){return 'R$ ' + Number(v).toLocaleString('pt-BR')};
+  var esc = function(s){return String(s == null ? '' : s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+
+  var items = [], offset = 0, filter = 'Todos', extMin = 5, encerramento = 0;
+  var prev = {}, lastHTML = '', closedRender = {}, carregou = false, me = null, curCod = null;
+  var now = function(){return Date.now() + offset};
+
+  try { me = JSON.parse(localStorage.getItem('bazar_me') || 'null'); } catch(e) { me = null; }
+  function guardarMe(){ try { localStorage.setItem('bazar_me', JSON.stringify(me)); } catch(e) {} }
+
+  function toast(msg, kind){
+    var d = document.createElement('div'); d.className = 'toast ' + (kind || ''); d.textContent = msg;
+    $('#toasts').appendChild(d); setTimeout(function(){ d.remove(); }, 5000);
+  }
+  function fmt(ms){
+    if (ms <= 0) return 'Encerrado';
+    var s = Math.floor(ms/1000), d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60), r = s%60;
+    var p = function(n){return (n<10?'0':'')+n};
+    if (d > 0) return d + 'd ' + h + 'h';
+    return h > 0 ? h + 'h ' + p(m) + 'min' : p(m) + ':' + p(r);
+  }
+  var fechada = function(it){ return it.manual || now() >= it.fim; };
+
+  /* ---------- API ---------- */
+  function conectado(){ return CONFIG.API_URL && CONFIG.API_URL.indexOf('COLE_AQUI') !== 0; }
+  function api(params){
+    var q = new URLSearchParams(params); q.set('_', Date.now());
+    var ctl = new AbortController(), t = setTimeout(function(){ ctl.abort(); }, 25000);
+    return fetch(CONFIG.API_URL + '?' + q.toString(), { signal: ctl.signal })
+      .then(function(r){ return r.json(); })
+      .finally(function(){ clearTimeout(t); });
+  }
+
+  /* ---------- textos ---------- */
+  function dataFmt(ms){
+    try { return new Intl.DateTimeFormat('pt-BR', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' }).format(new Date(ms)); }
+    catch(e) { return new Date(ms).toLocaleString('pt-BR'); }
+  }
+  function montarTextos(){
+    document.title = CONFIG.NOME + ' · Bazar em leilão';
+    $('#sub').textContent = CONFIG.SUBTITULO;
+    if (CONFIG.WHATSAPP_DUVIDAS) {
+      $('#duvidas').innerHTML = 'Dúvidas? <a href="https://wa.me/' + esc(CONFIG.WHATSAPP_DUVIDAS.replace(/\D/g,'')) + '" rel="noopener">Fale com a gente no WhatsApp</a>.';
+    }
+  }
+  function montarRegras(){
+    if (!encerramento) return;
+    $('#fecha').hidden = false;
+    $('#fecha').innerHTML = 'Todas as peças encerram em <strong>' + esc(dataFmt(encerramento)) + '</strong>';
+    $('#regras').innerHTML = [
+      'O leilão encerra em ' + esc(dataFmt(encerramento)) + '. Todas as peças fecham juntas.',
+      'O lance inicial e o aumento mínimo aparecem em cada peça.',
+      'Um lance nos últimos ' + extMin + ' minutos estende o prazo daquela peça em mais ' + extMin + ' minutos.',
+      'Dar um lance é um compromisso de compra. Quem desistir ou não pagar fica fora dos próximos bazares.',
+      'Pagamento no cartão, por link de pagamento enviado pelo WhatsApp, em até 24 horas após o encerramento.',
+      'Envio: ' + esc(CONFIG.ENVIO) + ', com frete único por cliente.',
+      'As peças são usadas; defeitos aparecem nas fotos e em "Detalhes". Não há troca.'
+    ].map(function(t){ return '<li>' + t + '</li>'; }).join('');
+  }
+
+  /* ---------- cartões ---------- */
+  var VAZIO = '<div class="vazio"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 22a8 8 0 1 1 8 8v6l32 20a6 6 0 0 1-3 11H13a6 6 0 0 1-3-11l32-20v-6" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>Foto em breve</div>';
+
+  function cardHTML(it){
+    var closed = fechada(it);
+    var foto = it.fotos && it.fotos.length
+      ? '<img class="main" src="' + esc(it.fotos[0]) + '" alt="' + esc(it.nome) + ', foto 1" loading="lazy" data-zoom="' + esc(it.fotos[0].replace('sz=w800','sz=w1600')) + '">'
+      : VAZIO;
+    var thumbs = it.fotos && it.fotos.length > 1
+      ? '<div class="thumbs">' + it.fotos.map(function(u, i){
+          return '<button type="button" data-thumb="' + esc(u) + '" aria-label="Ver foto ' + (i+1) + ' de ' + esc(it.nome) + '"' + (i===0?' aria-current="true"':'') + '><img src="' + esc(u.replace('sz=w800','sz=w200')) + '" alt="" loading="lazy"></button>';
+        }).join('') + '</div>'
+      : '';
+    var quem;
+    if (!it.lances) quem = closed ? '<span class="badge lost">Sem lances</span>' : '<span style="color:var(--muted)">Seja a primeira a dar um lance</span>';
+    else if (it.eLider) quem = closed ? '<span class="badge win">Você arrematou!</span>' : '<span class="badge win">Você está ganhando</span>';
+    else quem = (closed ? 'Arrematada por ' : 'Líder: ') + '<strong>' + esc(it.lider) + '</strong>' + (it.participei && !closed ? ' <span class="badge lost">Você foi coberta</span>' : '');
+    var ext = it.estendida && !closed ? ' <span class="badge ext">Prazo estendido</span>' : '';
+    var meta = ['Tam. ' + it.tam, it.marca, it.estado].filter(function(x){ return x && String(x).trim() && x !== 'Tam. '; }).join(' · ');
+    var det = it.detalhes ? '<br>' + esc(it.detalhes) : '';
+    var qtd = it.qtd > 1 ? ' · ' + it.qtd + ' itens' : '';
+    return '<article class="card' + (closed ? ' closed' : '') + '" data-cod="' + esc(it.cod) + '">' +
+      '<div class="ph">' + foto + '<span class="lot">Peça ' + esc(it.cod) + '</span><span class="timer" data-fim="' + it.fim + '" data-cod="' + esc(it.cod) + '"></span></div>' + thumbs +
+      '<div class="body"><h3>' + esc(it.nome) + '</h3><p class="meta">' + esc(meta) + qtd + det + '</p>' +
+      '<div class="price"><div><small>' + (it.lances ? 'Lance atual' : 'Lance inicial') + '</small><strong>' + brl(it.atual) + '</strong></div><small>' + it.lances + (it.lances === 1 ? ' lance' : ' lances') + '</small></div>' +
+      '<div class="who">' + quem + ext + '</div>' +
+      '<button class="btn" data-bid="' + esc(it.cod) + '"' + (closed ? ' disabled' : '') + '>' + (closed ? 'Leilão encerrado' : 'Dar lance') + '</button></div></article>';
+  }
+
+  function render(){
+    var tams = []; items.forEach(function(i){ var t = String(i.tam).trim(); if (t && tams.indexOf(t) < 0) tams.push(t); });
+    var f = $('#filtros');
+    if (tams.length > 1) {
+      f.hidden = false;
+      var fhtml = '<span>Tamanho:</span>' + ['Todos'].concat(tams).map(function(t){
+        return '<button class="chip" data-size="' + esc(t) + '" aria-pressed="' + (t === filter) + '">' + esc(t) + '</button>';
+      }).join('');
+      if (f.dataset.h !== fhtml) { f.innerHTML = fhtml; f.dataset.h = fhtml; }
+    } else f.hidden = true;
+    var list = items.filter(function(i){ return filter === 'Todos' || String(i.tam).trim() === filter; });
+    closedRender = {}; items.forEach(function(i){ closedRender[i.cod] = fechada(i); });
+    var html = list.length ? list.map(cardHTML).join('') : '<p>Nenhuma peça cadastrada ainda.</p>';
+    if (html !== lastHTML) { $('#grid').innerHTML = html; lastHTML = html; }
+    tick();
+  }
+
+  function tick(){
+    var t = now(), stale = false;
+    items.forEach(function(it){ if (!it.manual && t >= it.fim && !closedRender[it.cod]) stale = true; });
+    if (stale) { render(); return; }
+    document.querySelectorAll('.timer[data-fim]').forEach(function(el){
+      var ms = Number(el.dataset.fim) - t, it = items.filter(function(i){ return i.cod === el.dataset.cod; })[0];
+      var enc = it ? fechada(it) : ms <= 0;
+      el.textContent = enc ? 'Encerrado' : fmt(ms);
+      el.classList.toggle('urgent', !enc && ms < 60000);
+    });
+  }
+  setInterval(tick, 1000);
+
+  /* ---------- carregar dados ---------- */
+  function mostrarStatus(msg, erro, comBotao){
+    var s = $('#status'); s.hidden = false; s.className = 'status' + (erro ? ' erro' : '');
+    s.innerHTML = '<p>' + esc(msg) + '</p>' + (comBotao ? '<button class="btn small" id="retry">Tentar de novo</button>' : '');
+  }
+
+  function carregar(){
+    if (!conectado()) { mostrarStatus('Página ainda não conectada ao sistema. Falta colar a URL do Apps Script em API_URL.', true, false); return Promise.resolve(); }
+    return api({ w: me ? me.whats : '' }).then(function(d){
+      if (!d.ok) throw new Error(d.erro || 'Erro');
+      offset = d.agora - Date.now();
+      encerramento = d.encerramento; extMin = d.extMin;
+      d.itens.forEach(function(it){
+        var p = prev[it.cod];
+        if (p && p.eLider && !it.eLider && it.participei && !fechada(it)) toast('Seu lance em "' + it.nome + '" foi coberto. Novo valor: ' + brl(it.atual), 'bad');
+        if (p && !p.fechada && fechada(it) && it.eLider) toast('Você arrematou "' + it.nome + '" por ' + brl(it.atual) + '! Avisaremos pelo WhatsApp.', 'good');
+      });
+      items = d.itens; prev = {};
+      items.forEach(function(it){ prev[it.cod] = { eLider: it.eLider, fechada: fechada(it) }; });
+      carregou = true; $('#status').hidden = true;
+      montarRegras(); render();
+      if ($('#bidDlg').open) sincronizarLance(true);
+    }).catch(function(e){
+      if (!carregou) mostrarStatus('Não consegui carregar as peças agora. Confira sua conexão e tente de novo.', true, true);
+    });
+  }
+  document.addEventListener('click', function(e){ if (e.target && e.target.id === 'retry') { mostrarStatus('Carregando as peças…'); carregar(); } });
+  setInterval(function(){ if (!document.hidden && carregou) carregar(); }, CONFIG.INTERVALO_MS);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden && carregou) carregar(); });
+
+  /* ---------- interações do grid ---------- */
+  $('#grid').addEventListener('click', function(e){
+    var b = e.target.closest('[data-bid]'); if (b && !b.disabled) { abrirLance(b.dataset.bid); return; }
+    var t = e.target.closest('[data-thumb]');
+    if (t) {
+      var card = t.closest('.card'), main = card.querySelector('img.main');
+      if (main) { main.src = t.dataset.thumb; main.dataset.zoom = t.dataset.thumb.replace('sz=w800','sz=w1600'); }
+      card.querySelectorAll('[data-thumb]').forEach(function(x){ x.removeAttribute('aria-current'); });
+      t.setAttribute('aria-current', 'true'); return;
+    }
+    var z = e.target.closest('img.main');
+    if (z && z.dataset.zoom) { $('#zoomImg').src = z.dataset.zoom; $('#zoomImg').alt = z.alt; $('#zoomDlg').showModal(); }
+  });
+  $('#grid').addEventListener('error', function(e){
+    if (e.target.tagName === 'IMG' && e.target.classList.contains('main')) {
+      var v = document.createElement('div'); v.innerHTML = VAZIO; e.target.replaceWith(v.firstChild);
+    }
+  }, true);
+  $('#zoomClose').addEventListener('click', function(){ $('#zoomDlg').close(); });
+  $('#zoomDlg').addEventListener('click', function(e){ if (e.target === this) this.close(); });
+  $('#filtros').addEventListener('click', function(e){
+    var c = e.target.closest('[data-size]'); if (c) { filter = c.dataset.size; lastHTML = ''; render(); }
+  });
+
+  /* ---------- lance ---------- */
+  // Brasil: DDD + número (10 ou 11 dígitos, ou 12/13 com 55). Exterior: começa com + ou 00, 8 a 15 dígitos.
+  function whatsOk(raw){
+    var s = String(raw || '').trim(), d = s.replace(/\D/g, '');
+    if (s.charAt(0) === '+' || s.indexOf('00') === 0) { d = d.replace(/^00/, ''); return d.length >= 8 && d.length <= 15; }
+    d = d.replace(/^0+/, '');
+    return d.length === 10 || d.length === 11 || ((d.length === 12 || d.length === 13) && d.indexOf('55') === 0);
+  }
+  function achar(cod){ return items.filter(function(i){ return i.cod === cod; })[0]; }
+  function abrirLance(cod){
+    curCod = cod; var it = achar(cod); if (!it) return;
+    $('#bidTitle').textContent = it.nome;
+    $('#bName').value = me ? me.nome : ''; $('#bPhone').value = me ? me.whats : '';
+    $('#bErr').textContent = '';
+    sincronizarLance(false);
+    $('#bidDlg').showModal();
+    (me ? $('#bAmount') : $('#bName')).focus();
+  }
+  function sincronizarLance(manterValor){
+    var it = achar(curCod); if (!it) return;
+    $('#bidSub').textContent = (it.lances ? 'Lance atual ' : 'Lance inicial ') + brl(it.atual) + ' · mínimo agora ' + brl(it.minimo);
+    $('#bAmount').min = it.minimo;
+    var atual = parseInt($('#bAmount').value, 10);
+    if (!manterValor || !atual || atual < it.minimo) $('#bAmount').value = it.minimo;
+    $('#quick').innerHTML = [0,1,2].map(function(k){ var v = it.minimo + k * it.inc; return '<button type="button" class="btn ghost small" data-q="' + v + '">' + brl(v) + '</button>'; }).join('');
+  }
+  $('#quick').addEventListener('click', function(e){ var b = e.target.closest('[data-q]'); if (b) $('#bAmount').value = b.dataset.q; });
+  $('#bCancel').addEventListener('click', function(){ $('#bidDlg').close(); });
+  $('#bAmount').addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); enviar(); } });
+  $('#bSend').addEventListener('click', enviar);
+
+  function enviar(){
+    var err = $('#bErr'), btn = $('#bSend'); err.textContent = '';
+    var it = achar(curCod); if (!it) return;
+    var nome = $('#bName').value.trim(), whats = $('#bPhone').value.trim(), valor = parseInt($('#bAmount').value, 10);
+    if (nome.length < 2) { err.textContent = 'Informe seu nome.'; $('#bName').focus(); return; }
+    if (!whatsOk(whats)) { err.textContent = 'Confira o WhatsApp: no Brasil, com DDD; do exterior, comece com + e o código do país.'; $('#bPhone').focus(); return; }
+    if (!valor || valor < it.minimo) { err.textContent = 'O lance mínimo agora é ' + brl(it.minimo) + '.'; return; }
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    api({ action: 'bid', cod: curCod, nome: nome, whats: whats, valor: valor }).then(function(d){
+      if (d.ok) {
+        me = { nome: nome, whats: whats }; guardarMe();
+        $('#bidDlg').close();
+        toast('Lance de ' + brl(valor) + ' registrado em "' + it.nome + '".', 'good');
+        return carregar();
+      }
+      err.textContent = d.erro || 'Não foi possível registrar o lance.';
+      if (d.recarregar) return carregar();
+    }).catch(function(){
+      err.textContent = 'Sem conexão com o sistema. Confira a internet e tente de novo.';
+    }).finally(function(){ btn.disabled = false; btn.textContent = 'Confirmar lance'; });
+  }
+
+  montarTextos();
+  carregar();
+})();
+</script>
+</body>
+</html>
