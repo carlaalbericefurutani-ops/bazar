@@ -130,9 +130,9 @@
     <p class="lead" id="sub"></p>
     <div class="fecha" id="fecha" hidden></div>
     <ol class="steps">
-      <li>Escolha uma peça e confira tamanho, marca e estado.</li>
-      <li id="passoLance">Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim. Lance nos últimos 5 minutos prorroga a peça em mais 5 minutos.</li>
-      <li>Venceu? Enviamos o link para pagamento no cartão e combinamos a retirada.</li>
+      <li>Escolha uma peça e confira tamanho, marca e estado. Não há troca.</li>
+      <li id="passoLance">Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim.</li>
+      <li>Venceu? Enviamos o link para pagamento (Pix ou cartão) e combinamos a retirada.</li>
     </ol>
   </div>
 </header>
@@ -253,7 +253,8 @@
     if (!encerramento) return;
     $('#fecha').hidden = false;
     $('#fecha').innerHTML = 'Todas as peças encerram <strong>' + esc(dataFrase(encerramento)) + '</strong> (horário de Brasília)';
-    $('#passoLance').textContent = 'Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim. Lance nos últimos ' + extMin + ' minutos prorroga a peça em mais ' + extMin + ' minutos.';
+    $('#passoLance').textContent = 'Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim.' +
+      (extMin > 0 ? ' Lance nos últimos ' + extMin + ' minutos prorroga a peça em mais ' + extMin + ' minutos.' : '');
   }
 
   /* ---------- cartões ---------- */
