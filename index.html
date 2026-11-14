@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nobre Maria Antonieta · Bazar em leilão</title>
-<meta name="description" content="Bazar Nobre Maria Antonieta: peças femininas selecionadas em formato de leilão online. Dê seu lance e leve a peça.">
+<meta name="description" content="Bazar Nobre Maria Antonieta: uma seleção especial de peças para toda a família e para o seu lar. Boas escolhas merecem bons lances!">
 <meta property="og:title" content="Nobre Maria Antonieta · Bazar em leilão">
-<meta property="og:description" content="Peças femininas selecionadas. Dê seu lance e leve a peça.">
+<meta property="og:description" content="Uma seleção especial de peças para toda a família e para o seu lar. Boas escolhas merecem bons lances!">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://carlaalbericefurutani-ops.github.io/bazar/logo.jpg">
 <meta name="theme-color" content="#9c5a4a">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%97%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Cinzel:wght@600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Cinzel:wght@600&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#fbf6f1; --ink:#2b2120; --muted:#6a5d5a; --card:#fff; --line:#eadfd8;
@@ -37,7 +37,8 @@
   .topo h1{font-family:'Cinzel',Georgia,serif;font-weight:600;letter-spacing:.06em;font-size:calc(var(--tit0) + (var(--tit1) - var(--tit0))*var(--p));margin:calc(6px - 3px*var(--p)) 0 0;
     background:linear-gradient(90deg,#8a4b3c,#b07a66,#8a4b3c);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
   header.hero{padding:6px 0 8px;text-align:center;background:var(--bg)}
-  header.hero p.lead{color:var(--muted);max-width:560px;margin:0 auto 14px}
+  header.hero p.lead{color:var(--muted);max-width:560px;margin:0 auto 6px}
+  header.hero p.destaque{color:var(--rose);font-style:italic;font-weight:700;max-width:560px;margin:0 auto 14px}
   .steps li{text-align:left}
   .fecha{display:inline-block;background:var(--rose-l);color:var(--rose-d);border:1px solid #e3c6bb;border-radius:12px;padding:8px 14px;font-weight:500;margin:0 0 16px}
   .fecha strong{font-weight:700}
@@ -51,6 +52,8 @@
   .chip[aria-pressed="true"]{background:var(--rose-d);color:#fff;border-color:var(--rose-d)}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px;padding-bottom:40px}
+  details.encerradas{margin:0 0 40px;border-top:1px solid var(--line);padding-top:12px}
+  details.encerradas summary{cursor:pointer;font-weight:700;color:var(--muted);padding:6px 0 14px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
   .card.closed{opacity:.82}
   .ph{aspect-ratio:3/4;background:#f1e8e1;position:relative;display:grid;place-items:center;overflow:hidden}
@@ -128,6 +131,7 @@
 <header class="hero">
   <div class="wrap">
     <p class="lead" id="sub"></p>
+    <p class="destaque" id="destaque"></p>
     <div class="fecha" id="fecha" hidden></div>
     <ol class="steps">
       <li>Escolha uma peça e confira tamanho, marca e estado. Não há troca.</li>
@@ -140,7 +144,10 @@
 <main class="wrap">
   <div class="filters" id="filtros" role="group" aria-label="Filtrar por tamanho" hidden></div>
   <div id="status" class="status" role="status">Carregando as peças…</div>
-  <div class="grid" id="grid"></div>
+  <div id="lista">
+    <div class="grid" id="grid"></div>
+    <details class="encerradas" id="encerradas" hidden><summary id="encSum"></summary><div class="grid" id="gridEnc"></div></details>
+  </div>
 </main>
 
 <footer>
@@ -188,7 +195,8 @@
   var CONFIG = {
     API_URL: 'https://script.google.com/macros/s/AKfycbxgVgIoJpBPAxu80wGNSCM9RpStKLo5iVmHj2XmUBA4AEacTOEnvq3LU0SJ3deoWx-7vg/exec',   // termina em /exec
     NOME: 'Nobre Maria Antonieta',
-    SUBTITULO: 'Peças femininas selecionadas com carinho. Quem der o maior lance leva.',
+    SUBTITULO: 'Uma seleção especial de peças para toda a família e para o seu lar.',
+    DESTAQUE: 'Boas escolhas merecem bons lances!',
         WHATSAPP_DUVIDAS: '',                         // ex.: '5511999999999' (deixe vazio para esconder)
     INTERVALO_MS: 10000
   };
@@ -244,6 +252,7 @@
   function montarTextos(){
     document.title = CONFIG.NOME + ' · Bazar em leilão';
     $('#sub').textContent = CONFIG.SUBTITULO;
+    $('#destaque').textContent = CONFIG.DESTAQUE;
     $('#copy').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.NOME + '. Todos os direitos reservados.';
     if (CONFIG.WHATSAPP_DUVIDAS) {
       $('#duvidas').innerHTML = 'Dúvidas? <a href="https://wa.me/' + esc(CONFIG.WHATSAPP_DUVIDAS.replace(/\D/g,'')) + '" rel="noopener">Fale com a gente no WhatsApp</a>.';
@@ -298,8 +307,16 @@
     } else f.hidden = true;
     var list = items.filter(function(i){ return filter === 'Todos' || String(i.tam).trim() === filter; });
     closedRender = {}; items.forEach(function(i){ closedRender[i.cod] = fechada(i); });
-    var html = list.length ? list.map(cardHTML).join('') : '<p>Nenhuma peça cadastrada ainda.</p>';
-    if (html !== lastHTML) { $('#grid').innerHTML = html; lastHTML = html; }
+    var ab = list.filter(function(i){ return !fechada(i); }), en = list.filter(fechada);
+    var htmlA = ab.length ? ab.map(cardHTML).join('')
+      : (en.length ? '<p>Todas as peças deste leilão já encerraram.</p>' : '<p>Nenhuma peça cadastrada ainda.</p>');
+    var htmlE = en.map(cardHTML).join('');
+    var chave = htmlA + '\u0001' + htmlE;
+    if (chave !== lastHTML) {
+      $('#grid').innerHTML = htmlA; $('#gridEnc').innerHTML = htmlE; lastHTML = chave;
+      var det = $('#encerradas'); det.hidden = !en.length;
+      $('#encSum').textContent = 'Peças encerradas (' + en.length + ')';
+    }
     tick();
   }
 
@@ -347,7 +364,7 @@
   document.addEventListener('visibilitychange', function(){ if (!document.hidden && carregou) carregar(); });
 
   /* ---------- interações do grid ---------- */
-  $('#grid').addEventListener('click', function(e){
+  $('#lista').addEventListener('click', function(e){
     var b = e.target.closest('[data-bid]'); if (b && !b.disabled) { abrirLance(b.dataset.bid); return; }
     var t = e.target.closest('[data-thumb]');
     if (t) {
@@ -359,7 +376,7 @@
     var z = e.target.closest('img.main');
     if (z && z.dataset.zoom) { $('#zoomImg').src = z.dataset.zoom; $('#zoomImg').alt = z.alt; $('#zoomDlg').showModal(); }
   });
-  $('#grid').addEventListener('error', function(e){
+  $('#lista').addEventListener('error', function(e){
     if (e.target.tagName === 'IMG' && e.target.classList.contains('main')) {
       var v = document.createElement('div'); v.innerHTML = VAZIO; e.target.replaceWith(v.firstChild);
     }
