@@ -38,16 +38,12 @@
     background:linear-gradient(90deg,#8a4b3c,#b07a66,#8a4b3c);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
   header.hero{padding:6px 0 8px;text-align:center;background:var(--bg)}
   header.hero p.lead{color:var(--muted);max-width:560px;margin:0 auto 14px}
-  .steps li,details.regras{text-align:left}
+  .steps li{text-align:left}
   .fecha{display:inline-block;background:var(--rose-l);color:var(--rose-d);border:1px solid #e3c6bb;border-radius:12px;padding:8px 14px;font-weight:500;margin:0 0 16px}
   .fecha strong{font-weight:700}
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:0;padding:0;list-style:none;counter-reset:s}
   .steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 10px 46px;position:relative;font-size:.92rem}
   .steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:26px;height:26px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
-  details.regras{margin:14px 0 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-  details.regras summary{font-weight:700;cursor:pointer}
-  details.regras ul{margin:8px 0 2px;padding-left:20px;color:var(--ink);font-size:.93rem}
-  details.regras li{margin:3px 0}
 
   .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:22px 0 16px}
   .filters span{color:var(--muted);font-size:.9rem}
@@ -135,13 +131,9 @@
     <div class="fecha" id="fecha" hidden></div>
     <ol class="steps">
       <li>Escolha uma peça e confira tamanho, marca e estado.</li>
-      <li>Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim.</li>
+      <li id="passoLance">Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim. Lance nos últimos 5 minutos prorroga a peça em mais 5 minutos.</li>
       <li>Venceu? Enviamos o link para pagamento no cartão e combinamos a retirada.</li>
     </ol>
-    <details class="regras">
-      <summary>Regras do leilão</summary>
-      <ul id="regras"></ul>
-    </details>
   </div>
 </header>
 
@@ -261,12 +253,7 @@
     if (!encerramento) return;
     $('#fecha').hidden = false;
     $('#fecha').innerHTML = 'Todas as peças encerram <strong>' + esc(dataFrase(encerramento)) + '</strong> (horário de Brasília)';
-    $('#regras').innerHTML = [
-      'Lance nos últimos ' + extMin + ' minutos prorroga a peça em mais ' + extMin + ' minutos.',
-      'Dar um lance é um compromisso de compra.',
-      'Pagamento no cartão, por link enviado pelo WhatsApp, em até 24 horas.',
-      'Envio: retirada a combinar.'
-    ].map(function(t){ return '<li>' + t + '</li>'; }).join('');
+    $('#passoLance').textContent = 'Dê o seu lance. Se alguém cobrir, você pode dar outro até o fim. Lance nos últimos ' + extMin + ' minutos prorroga a peça em mais ' + extMin + ' minutos.';
   }
 
   /* ---------- cartões ---------- */
